@@ -7,7 +7,7 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-     
+      - uses: actions/checkout@v3
       - name: setup dotnet8
         uses: actions/setup-dotnet@v2
         env:
