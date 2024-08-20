@@ -42,7 +42,8 @@ jobs:
           asset_path: ./public/publish-zip/ntt-win-x86.zip
           asset_name: ntt-win-x86.zip
           asset_content_type: application/zip
- 
+
+      - name: upload-win-x64
         id: upload-win-x64
         uses: actions/upload-release-asset@master
         env:
