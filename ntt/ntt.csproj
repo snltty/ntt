@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <OutputType>Exe</OutputType>
+	  <TargetFrameworks>net8.0</TargetFrameworks>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Nullable>disable</Nullable>
+	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	  <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+	  <Configurations>Debug;Release</Configurations>
+	  <PublishAot>false</PublishAot>
+	  <EnablePreviewFeatures>true</EnablePreviewFeatures>
+	  <ServerGarbageCollection>false</ServerGarbageCollection>
+	  <ApplicationIcon>ntt.ico</ApplicationIcon>
+	  <PackageIcon>ntt.png</PackageIcon>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|AnyCPU'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|AnyCPU'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="ntt.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Stun.Net" Version="8.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ntt.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,154 @@
+name: Publich
+'on':
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+     
+      - name: setup dotnet8
+        uses: actions/setup-dotnet@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          dotnet-version: 8.0.x
+      
+      - name: publish projects
+        run: ./publish.bat
+      - name: get current date
+        id: date
+        run: echo "::set-output name=today::$(date +'%Y-%m-%d')"
+      - name: create release
+        id: create_release
+        uses: GongT/actions-recreate-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          tag_name: v1.0.0
+          release_name: v1.0.0.${{ steps.date.outputs.today }}
+          draft: false
+          prerelease: false
+          body: "1. 发布"
+    
+      - name: upload-win-x86
+        id: upload-win-x86
+        uses: actions/upload-release-asset@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./public/publish-zip/ntt-win-x86.zip
+          asset_name: ntt-win-x86.zip
+          asset_content_type: application/zip
+ 
+        id: upload-win-x64
+        uses: actions/upload-release-asset@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./public/publish-zip/ntt-win-x64.zip
+          asset_name: ntt-win-x64.zip
+          asset_content_type: application/zip
+
+      - name: upload-win-arm64
+        id: upload-win-arm64
+        uses: actions/upload-release-asset@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./public/publish-zip/ntt-win-arm64.zip
+          asset_name: ntt-win-arm64.zip
+          asset_content_type: application/zip
+
+      - name: upload-linux-x64
+        id: upload-linux-x64
+        uses: actions/upload-release-asset@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./public/publish-zip/ntt-linux-x64.zip
+          asset_name: ntt-linux-x64.zip
+          asset_content_type: application/zip
+
+      - name: upload-linux-arm
+        id: upload-linux-arm
+        uses: actions/upload-release-asset@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./public/publish-zip/ntt-linux-arm.zip
+          asset_name: ntt-linux-arm.zip
+          asset_content_type: application/zip
+ 
+      - name: upload-linux-arm64
+        id: upload-linux-arm64
+        uses: actions/upload-release-asset@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./public/publish-zip/ntt-linux-arm64.zip
+          asset_name: ntt-linux-arm64.zip
+          asset_content_type: application/zip
+ 
+      - name: upload-linux-musl-x64
+        id: upload-linux-musl-x64
+        uses: actions/upload-release-asset@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./public/publish-zip/ntt-linux-musl-x64.zip
+          asset_name: ntt-linux-musl-x64.zip
+          asset_content_type: application/zip
+ 
+      - name: upload-linux-musl-arm
+        id: upload-linux-musl-arm
+        uses: actions/upload-release-asset@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./public/publish-zip/ntt-linux-musl-arm.zip
+          asset_name: ntt-linux-musl-arm.zip
+          asset_content_type: application/zip
+ 
+      - name: upload-linux-musl-arm64
+        id: upload-linux-musl-arm64
+        uses: actions/upload-release-asset@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./public/publish-zip/ntt-linux-musl-arm64.zip
+          asset_name: ntt-linux-musl-arm64.zip
+          asset_content_type: application/zip
+ 
+      - name: upload-osx-x64
+        id: upload-osx-x64
+        uses: actions/upload-release-asset@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./public/publish-zip/ntt-osx-x64.zip
+          asset_name: ntt-osx-x64.zip
+          asset_content_type: application/zip
+
+      - name: upload-osx-arm64
+        id: upload-osx-arm64
+        uses: actions/upload-release-asset@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./public/publish-zip/ntt-osx-arm64.zip
+          asset_name: ntt-osx-arm64.zip
+          asset_content_type: application/zip
+ 
