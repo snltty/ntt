@@ -1,0 +1,86 @@
+import win.ui;
+/*DSG{{*/
+mainForm = win.form(text="ntt.win";right=409;bottom=203;max=false;min=false)
+mainForm.add(
+btnTest={cls="button";text="测一把";left=166;top=147;right=250;bottom=185;z=9};
+cbServer={cls="combobox";left=83;top=28;right=387;bottom=54;edge=1;items={};mode="dropdown";z=1};
+static={cls="static";text="服务器";left=25;top=28;right=68;bottom=54;center=1;notify=1;transparent=1;z=2};
+static2={cls="static";text="局域网";left=26;top=66;right=69;bottom=92;center=1;notify=1;transparent=1;z=3};
+static4={cls="static";text="广域网";left=211;top=64;right=254;bottom=90;center=1;notify=1;transparent=1;z=5};
+static5={cls="static";text="NAT";left=26;top=104;right=69;bottom=130;align="center";center=1;notify=1;transparent=1;z=7};
+tbLocal={cls="edit";left=83;top=65;right=203;bottom=91;edge=1;multiline=1;readonly=1;z=4};
+tbNAT={cls="edit";left=83;top=103;right=203;bottom=129;edge=1;multiline=1;readonly=1;z=8};
+tbNAT1={cls="edit";left=208;top=103;right=328;bottom=128;edge=1;readonly=1;z=10};
+tbNAT2={cls="edit";left=332;top=103;right=387;bottom=128;edge=1;readonly=1;z=11};
+tbRemote={cls="edit";left=268;top=63;right=388;bottom=89;edge=1;multiline=1;readonly=1;z=6}
+)
+/*}}*/
+
+mainForm.cbServer.items = {"stun.syncthing.net"};
+mainForm.cbServer.text = mainForm.cbServer.items[1];
+
+mainForm.natMaps = {
+	"Unknown":{cn:"未知",nat:""},
+	"UnsupportedServer":{cn:"服务器不支持",nat:""},
+	"UdpBlocked":{cn:"UDP不被支持",nat:""},
+	"OpenInternet":{cn:"无NAT公开网络",nat:""},
+	"SymmetricUdpFirewall":{cn:"无NAT但UDP被禁止",nat:""},
+	"FullCone":{cn:"全锥形",nat:"NAT1"},
+	"RestrictedCone":{cn:"限制锥形",nat:"NAT2"},
+	"PortRestrictedCone":{cn:"端口限制锥形",nat:"NAT3"},
+	"Symmetric":{cn:"对称",nat:"NAT4"}
+}
+
+mainForm.loading = false;
+
+mainForm.btnTest.oncommand = function(id,event){
+	import  thread;
+	
+	if(mainForm.loading)
+	{
+		return;
+	}
+	mainForm.loading = true;
+	mainForm.btnTest.text = ".....";
+	
+	thread.invoke( 
+		function(mainForm){
+			import process.popen;
+			import console;
+			try{
+				
+				mainForm.tbNAT.text = "";
+				mainForm.tbNAT1.text = "";
+				mainForm.tbNAT2.text = "";
+				mainForm.tbLocal.text = "";	
+				mainForm.tbRemote.text = "";
+				
+				var proc = process.popen("ntt.exe",mainForm.cbServer.text);
+				var result = proc.readAll();
+				if(string.len(result)>0)
+				{
+					var arr = string.split(result,'<\r\n>');
+					if(mainForm.natMaps[arr[1]])
+					{
+						var tb = mainForm.natMaps[arr[1]];
+						mainForm.tbNAT.text = arr[1];
+						mainForm.tbNAT1.text = tb["cn"];
+						mainForm.tbNAT2.text = tb["nat"];
+						if(string.len(tb["nat"])>0)
+						{
+							mainForm.tbLocal.text = arr[2];	
+							mainForm.tbRemote.text = arr[3];
+						}
+					}
+				}
+			}
+			catch(e){
+			}
+			mainForm.loading = false;
+			mainForm.btnTest.text = "测一把";
+		},mainForm
+	)
+}
+
+mainForm.show();
+return win.loopMessage();

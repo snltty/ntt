@@ -21,9 +21,9 @@ namespace ntt
             try
             {
                 ClassicStunResult result = await TestClassicNatTypeAsync(server, cts.Token).WaitAsync(TimeSpan.FromMilliseconds(15000));
+                Console.WriteLine(result.NatType);
                 Console.WriteLine(result.LocalEndPoint);
                 Console.WriteLine(result.PublicEndPoint);
-                Console.WriteLine(result.NatType);
             }
             catch (Exception)
             {
@@ -31,9 +31,13 @@ namespace ntt
                 await cts.CancelAsync();
             }
 
-            Console.WriteLine();
-            Console.WriteLine($"Any key to exit");
-            Console.ReadKey();
+            try
+            {
+                Console.ReadKey();
+            }
+            catch (Exception)
+            {
+            }
         }
 
         private static async Task<ClassicStunResult> TestClassicNatTypeAsync(string server, CancellationToken token)
