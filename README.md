@@ -1,5 +1,5 @@
 <div align="center">
-<p><img src="./ntt/ntt/ntt.png" height="150"></p> 
+<p><img src="./ntt/ntt.png" height="150"></p> 
 
 # Nat Type Tester
 
