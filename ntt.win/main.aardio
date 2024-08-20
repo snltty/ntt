@@ -25,10 +25,10 @@ mainForm.natMaps = {
 	"UdpBlocked":{cn:"UDP不被支持",nat:""},
 	"OpenInternet":{cn:"无NAT公开网络",nat:""},
 	"SymmetricUdpFirewall":{cn:"无NAT但UDP被禁止",nat:""},
-	"FullCone":{cn:"全锥形",nat:"NAT1"},
-	"RestrictedCone":{cn:"限制锥形",nat:"NAT2"},
-	"PortRestrictedCone":{cn:"端口限制锥形",nat:"NAT3"},
-	"Symmetric":{cn:"对称",nat:"NAT4"}
+	"FullCone":{cn:"全锥型",nat:"NAT1"},
+	"RestrictedCone":{cn:"限制锥型",nat:"NAT2"},
+	"PortRestrictedCone":{cn:"端口限制锥型",nat:"NAT3"},
+	"Symmetric":{cn:"对称型",nat:"NAT4"}
 }
 
 mainForm.loading = false;
